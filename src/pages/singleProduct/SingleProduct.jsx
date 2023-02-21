@@ -23,17 +23,17 @@ const SingleProduct = () => {
 
   const { isLoading, data, refetch, isFetching } = useQuery(
     ["product", productId],
-    () => getOneProduct(productId),
+    getOneProduct,
     {
-      staleTime: 0,
+      staleTime: Infinity,
     }
   );
 
   const name = data?.data?.name;
   const description = data?.data?.description;
   const price = data?.data?.price;
-  const imgUrl = data?.data?.imgUrl;
-  const text = data?.data?.fullText;
+  const image = data?.data?.image;
+  const text = data?.data?.full_text;
 
   const { mutate } = useMutation(deleteProduct, {
     onSuccess: () => {
@@ -56,7 +56,7 @@ const SingleProduct = () => {
         <Loading />
       ) : (
         <Card sx={{ maxWidth: 500, marginTop: 2, marginLeft: 2 }}>
-          <CardMedia component="img" alt={name} height="220" image={imgUrl} />
+          <CardMedia component="img" alt={name} height="220" image={image} />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {name}{" "}

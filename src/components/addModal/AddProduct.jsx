@@ -34,10 +34,10 @@ const AddProduct = ({ isShow, handleClick, refetch }) => {
 
     const productData = {
       name: name,
-      imgUrl: img,
+      image: img,
       price: price,
       description: description,
-      fullText: text,
+      full_text: text,
     };
 
     mutate(productData);
@@ -66,17 +66,10 @@ const AddProduct = ({ isShow, handleClick, refetch }) => {
                   placeholder="Enter Product Name"
                   name="name"
                   required
-                  focused
                 />
               </Grid>
               <Grid sm={6} xs={12} item>
-                <TextField
-                  fullWidth
-                  label="Product Image"
-                  placeholder="Enter Last Name"
-                  name="image"
-                  required
-                />
+                <TextField fullWidth name="image" type="file" required />
               </Grid>
               <Grid sm={6} xs={12} item>
                 <TextField

@@ -25,7 +25,7 @@ const EditProduct = ({
 }) => {
   const { productId } = useParams();
 
-  const { isLoading, mutate, isSuccess } = useMutation(updateProduct, {
+  const { isLoading, mutate } = useMutation(updateProduct, {
     onSuccess: () => {
       refetch();
     },
@@ -34,10 +34,10 @@ const EditProduct = ({
   const [productData, setData] = useState({
     id: "",
     name: "",
-    fullText: "",
+    full_text: "",
     description: "",
     price: "",
-    imgUrl: "",
+    image: "",
   });
 
   useEffect(() => {
@@ -45,10 +45,10 @@ const EditProduct = ({
       setData({
         id: productId,
         name: dataObj.name,
-        fullText: dataObj.fullText,
+        full_text: dataObj.full_text,
         description: dataObj.description,
         price: dataObj.price,
-        imgUrl: dataObj.imgUrl,
+        image: dataObj.image,
       });
     }
   }, [isFetching]);
@@ -105,12 +105,12 @@ const EditProduct = ({
                   label="Product Image"
                   placeholder="Enter Last Name"
                   name="image"
-                  value={productData.imgUrl}
+                  value={productData.image}
                   required
                   onChange={(e) =>
                     setData((prev) => ({
                       ...prev,
-                      imgUrl: e.target.value,
+                      image: e.target.value,
                     }))
                   }
                 />
@@ -156,12 +156,12 @@ const EditProduct = ({
                   rows={4}
                   placeholder="Type fully about the product"
                   name="text"
-                  value={productData.fullText}
+                  value={productData.full_text}
                   required
                   onChange={(e) =>
                     setData((prev) => ({
                       ...prev,
-                      fullText: e.target.value,
+                      full_text: e.target.value,
                     }))
                   }
                 />
