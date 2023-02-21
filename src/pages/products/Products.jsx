@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
 
 import { useQuery, useQueryClient } from "react-query";
 
@@ -7,6 +6,7 @@ import CartItem from "../../components/cartItem/CartItem";
 import Loading from "../../components/loading/Loading";
 import AddProduct from "../../components/addModal/AddProduct";
 import { HiddenContext } from "../../App";
+import { getProducts } from "../../api/api";
 
 import { AiOutlinePlus } from "react-icons/ai";
 import { Typography } from "@mui/material";
@@ -18,13 +18,7 @@ const Products = () => {
   const { isHidden, setHidden } = useContext(HiddenContext);
 
   // Get products
-  const { isLoading, data, isFetching, refetch } = useQuery(
-    "product",
-    async () =>
-      await axios.get("http://localhost:4000/product").then((res) => res)
-  );
-
-  console.log(isFetching);
+  const { isLoading, data, refetch } = useQuery("product", getProducts);
 
   const handleClick = () => {
     setShow(!isShow);

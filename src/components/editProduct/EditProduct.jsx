@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useMutation } from "react-query";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 
 import Loading from "../loading/Loading";
+import { updateProduct } from "../../api/api";
 
 import {
   Typography,
@@ -25,13 +25,11 @@ const EditProduct = ({
 }) => {
   const { productId } = useParams();
 
-  const { isLoading, mutate } = useMutation(
-    async ({ id, ...productData }) =>
-      await axios
-        .put(`http://localhost:4000/product/${id}`, productData)
-        .then((res) => res.data)
-        .then(() => refetch())
-  );
+  const { isLoading, mutate, isSuccess } = useMutation(updateProduct, {
+    onSuccess: () => {
+      refetch();
+    },
+  });
 
   const [productData, setData] = useState({
     id: "",

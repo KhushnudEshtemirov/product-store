@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useParams, useNavigate, Navigate } from "react-router-dom";
-import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 
 import Loading from "../../components/loading/Loading";
 import EditProduct from "../../components/editProduct/EditProduct";
+import { deleteProduct, getOneProduct } from "../../api/api";
 
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -23,12 +23,9 @@ const SingleProduct = () => {
 
   const { isLoading, data, refetch, isFetching } = useQuery(
     ["product", productId],
-    async () =>
-      await axios
-        .get(`http://localhost:4000/product/${productId}`)
-        .then((res) => res),
+    () => getOneProduct(productId),
     {
-      refetchOnMount: true,
+      staleTime: 0,
     }
   );
 
@@ -38,15 +35,10 @@ const SingleProduct = () => {
   const imgUrl = data?.data?.imgUrl;
   const text = data?.data?.fullText;
 
-  const deleteElement = useMutation(async (itemId) => {
-    if (window.confirm("Are you sure deleting this product?")) {
-      return await axios
-        .delete(`http://localhost:4000/product/${itemId}`)
-        .then((res) => {
-          refetch();
-          navigate("/products");
-        });
-    }
+  const { mutate } = useMutation(deleteProduct, {
+    onSuccess: () => {
+      navigate("/products");
+    },
   });
 
   const handleClick = () => {
@@ -87,7 +79,7 @@ const SingleProduct = () => {
             <Button
               size="small"
               sx={{ color: "red" }}
-              onClick={() => deleteElement.mutate(productId)}
+              onClick={() => mutate(productId)}
             >
               DELETE
             </Button>

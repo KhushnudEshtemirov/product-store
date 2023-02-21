@@ -12,19 +12,16 @@ import {
 } from "@mui/material";
 
 import "../../styles/styles.scss";
-import axios from "axios";
+import { postProduct } from "../../api/api";
 
 const AddProduct = ({ isShow, handleClick, refetch }) => {
   const formRef = useRef();
   // Add product
-  const { mutate } = useMutation(async (data) => {
-    return await axios
-      .post("http://localhost:4000/product", data)
-      .then((res) => {
-        refetch();
-      });
-  });
+  const { mutate, isSuccess } = useMutation(postProduct);
 
+  if (isSuccess) {
+    refetch();
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     handleClick();
@@ -69,6 +66,7 @@ const AddProduct = ({ isShow, handleClick, refetch }) => {
                   placeholder="Enter Product Name"
                   name="name"
                   required
+                  focused
                 />
               </Grid>
               <Grid sm={6} xs={12} item>
