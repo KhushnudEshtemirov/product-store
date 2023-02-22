@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import "../../styles/styles.scss";
 
 const SingleProduct = () => {
+  const [load, setLoad] = useState(false);
   const navigate = useNavigate();
   const { productId } = useParams();
   const [modalActive, setModalActive] = useState(false);
@@ -35,7 +36,7 @@ const SingleProduct = () => {
   const image = data?.data?.image;
   const text = data?.data?.full_text;
 
-  const { mutate } = useMutation(deleteProduct, {
+  const delProduct = useMutation(deleteProduct, {
     onSuccess: () => {
       navigate("/products");
     },
@@ -52,7 +53,7 @@ const SingleProduct = () => {
         className={`black_window ${isShow ? "show_black" : ""}`}
         onClick={() => handleClick()}
       ></div>
-      {isLoading ? (
+      {isLoading || isFetching || delProduct.isLoading || load ? (
         <Loading />
       ) : (
         <Card sx={{ maxWidth: 500, marginTop: 2, marginLeft: 2 }}>
@@ -79,7 +80,7 @@ const SingleProduct = () => {
             <Button
               size="small"
               sx={{ color: "red" }}
-              onClick={() => mutate(productId)}
+              onClick={() => delProduct.mutate(productId)}
             >
               DELETE
             </Button>
@@ -87,6 +88,7 @@ const SingleProduct = () => {
         </Card>
       )}
       <EditProduct
+        setLoad={setLoad}
         dataObj={data?.data}
         isFetching={isFetching}
         showModal={modalActive}

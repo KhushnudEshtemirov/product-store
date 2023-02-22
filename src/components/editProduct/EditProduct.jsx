@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 
-import Loading from "../loading/Loading";
 import { updateProduct } from "../../api/api";
+import { LoaderContext } from "../../pages/singleProduct/SingleProduct";
 
 import {
   Typography,
@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 
 import "../../styles/styles.scss";
+import Loading from "../loading/Loading";
 
 const EditProduct = ({
   dataObj,
@@ -22,14 +23,9 @@ const EditProduct = ({
   handleClick,
   isFetching,
   refetch,
+  setLoad,
 }) => {
   const { productId } = useParams();
-
-  const { isLoading, mutate } = useMutation(updateProduct, {
-    onSuccess: () => {
-      refetch();
-    },
-  });
 
   const [productData, setData] = useState({
     id: "",
@@ -40,6 +36,17 @@ const EditProduct = ({
     image: "",
   });
 
+  const { mutate } = useMutation(updateProduct, {
+    onSuccess: () => {
+      refetch();
+      setLoad(false);
+    },
+  });
+
+  const handleImage = (e) => {
+    setData({ ...productData, image: e.target.files[0] });
+  };
+
   useEffect(() => {
     if (!isFetching) {
       setData({
@@ -48,23 +55,15 @@ const EditProduct = ({
         full_text: dataObj.full_text,
         description: dataObj.description,
         price: dataObj.price,
-        image: dataObj.image,
       });
     }
   }, [isFetching]);
 
-  if (isFetching) {
-    return <Loading />;
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault();
     mutate(productData);
+    setLoad(true);
   };
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <div
@@ -102,17 +101,10 @@ const EditProduct = ({
               <Grid sm={6} xs={12} item>
                 <TextField
                   fullWidth
-                  label="Product Image"
-                  placeholder="Enter Last Name"
                   name="image"
-                  value={productData.image}
-                  required
-                  onChange={(e) =>
-                    setData((prev) => ({
-                      ...prev,
-                      image: e.target.value,
-                    }))
-                  }
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  onChange={handleImage}
                 />
               </Grid>
               <Grid sm={6} xs={12} item>

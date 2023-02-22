@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 
 import CartItem from "../../components/cartItem/CartItem";
 import Loading from "../../components/loading/Loading";
@@ -19,7 +19,6 @@ const Products = () => {
 
   // Get products
   const { isLoading, data, refetch } = useQuery("product", getProducts);
-
   const handleClick = () => {
     setShow(!isShow);
     setRotate(!isRotate);

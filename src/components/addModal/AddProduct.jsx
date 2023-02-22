@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import { useMutation } from "react-query";
 
@@ -11,30 +11,36 @@ import {
   Button,
 } from "@mui/material";
 
-import "../../styles/styles.scss";
 import { postProduct } from "../../api/api";
 
+import "../../styles/styles.scss";
+
 const AddProduct = ({ isShow, handleClick, refetch }) => {
+  const [image, setImage] = useState(null);
   const formRef = useRef();
   // Add product
-  const { mutate, isSuccess } = useMutation(postProduct);
+  const { mutate } = useMutation(postProduct, {
+    onSuccess: () => {
+      refetch();
+    },
+  });
 
-  if (isSuccess) {
-    refetch();
-  }
+  const handleImage = (e) => {
+    setImage(e.target.files[0]);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     handleClick();
     const data = new FormData(e.currentTarget);
     const name = data.get("name");
-    const img = data.get("image");
     const price = data.get("price");
     const description = data.get("description");
     const text = data.get("text");
 
     const productData = {
       name: name,
-      image: img,
+      image: image,
       price: price,
       description: description,
       full_text: text,
@@ -69,7 +75,14 @@ const AddProduct = ({ isShow, handleClick, refetch }) => {
                 />
               </Grid>
               <Grid sm={6} xs={12} item>
-                <TextField fullWidth name="image" type="file" required />
+                <TextField
+                  fullWidth
+                  name="image"
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  onChange={handleImage}
+                  required
+                />
               </Grid>
               <Grid sm={6} xs={12} item>
                 <TextField
