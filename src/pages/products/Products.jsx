@@ -14,6 +14,7 @@ import { Typography } from "@mui/material";
 const Products = () => {
   const [isShow, setShow] = useState(false);
   const [isRotate, setRotate] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { isHidden, setHidden } = useContext(HiddenContext);
 
@@ -31,7 +32,7 @@ const Products = () => {
         className={`black_window ${isShow ? "show_black" : ""}`}
         onClick={() => handleClick()}
       ></div>
-      {isLoading ? (
+      {isLoading || loading ? (
         <Loading />
       ) : (
         <div className="products-page">
@@ -52,6 +53,7 @@ const Products = () => {
             <AiOutlinePlus />
           </div>
           <AddProduct
+            setLoading={setLoading}
             isShow={isShow}
             handleClick={handleClick}
             refetch={refetch}

@@ -15,13 +15,14 @@ import { postProduct } from "../../api/api";
 
 import "../../styles/styles.scss";
 
-const AddProduct = ({ isShow, handleClick, refetch }) => {
+const AddProduct = ({ isShow, handleClick, refetch, setLoading }) => {
   const [image, setImage] = useState(null);
   const formRef = useRef();
   // Add product
   const { mutate } = useMutation(postProduct, {
     onSuccess: () => {
       refetch();
+      setLoading(false);
     },
   });
 
@@ -47,6 +48,8 @@ const AddProduct = ({ isShow, handleClick, refetch }) => {
     };
 
     mutate(productData);
+
+    setLoading(true);
 
     formRef.current.reset();
   };
