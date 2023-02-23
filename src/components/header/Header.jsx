@@ -18,6 +18,10 @@ const Header = () => {
     }
   };
 
+  useEffect(() => {
+    setInnerWidth(window.innerWidth);
+  }, []);
+
   return (
     <>
       <div
@@ -39,7 +43,9 @@ const Header = () => {
             About
           </Link>
         </div>
-        <IoReorderThreeOutline onClick={() => handleClick()} />
+        <div className="burger" onClick={() => handleClick()}>
+          <IoReorderThreeOutline />
+        </div>
       </div>
     </>
   );

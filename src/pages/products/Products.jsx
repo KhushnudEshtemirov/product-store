@@ -9,7 +9,7 @@ import { HiddenContext } from "../../App";
 import { getProducts } from "../../api/api";
 
 import { AiOutlinePlus } from "react-icons/ai";
-import { Typography, Grid } from "@mui/material";
+import { Typography, Grid, Card } from "@mui/material";
 
 const Products = () => {
   const [isShow, setShow] = useState(false);

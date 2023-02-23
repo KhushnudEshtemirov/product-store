@@ -13,7 +13,7 @@ const CartItem = (product) => {
   const { name, price, image, description, id } = product;
 
   return (
-    <Card sx={{ maxWidth: "100%" }}>
+    <Card sx={{ maxWidth: "100%", height: 360, position: "relative" }}>
       <CardActionArea>
         <CardMedia component="img" height="180" image={image} alt={name} />
         <CardContent>
@@ -24,12 +24,16 @@ const CartItem = (product) => {
               ${price}
             </span>
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            className="hidden_text"
+          >
             {description}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      <CardActions sx={{ position: "absolute", bottom: 0 }}>
         <Button size="small" color="primary">
           <Link to={`/products/${id}`}>READ MORE</Link>
         </Button>
