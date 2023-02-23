@@ -9,7 +9,7 @@ import { HiddenContext } from "../../App";
 import { getProducts } from "../../api/api";
 
 import { AiOutlinePlus } from "react-icons/ai";
-import { Typography } from "@mui/material";
+import { Typography, Grid } from "@mui/material";
 
 const Products = () => {
   const [isShow, setShow] = useState(false);
@@ -40,11 +40,17 @@ const Products = () => {
             All products here
           </Typography>
           <div className="product-items">
-            {!!data &&
-              data.data
-                .slice(0)
-                .reverse()
-                .map((product) => <CartItem key={product.id} {...product} />)}
+            <Grid container spacing={3}>
+              {!!data &&
+                data.data
+                  .slice(0)
+                  .reverse()
+                  .map((product) => (
+                    <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
+                      <CartItem {...product} />
+                    </Grid>
+                  ))}
+            </Grid>
           </div>
           <div
             className={`add_item ${isRotate ? "add_rotate" : ""}`}
