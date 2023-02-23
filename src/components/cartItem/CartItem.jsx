@@ -13,7 +13,7 @@ const CartItem = (product) => {
   const { name, price, image, description, id } = product;
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: "100%" }}>
       <CardActionArea>
         <CardMedia component="img" height="180" image={image} alt={name} />
         <CardContent>

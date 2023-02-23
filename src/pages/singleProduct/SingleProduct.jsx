@@ -56,7 +56,9 @@ const SingleProduct = () => {
       {isLoading || isFetching || delProduct.isLoading || load ? (
         <Loading />
       ) : (
-        <Card sx={{ maxWidth: 500, marginTop: 2, marginLeft: 2 }}>
+        <Card
+          sx={{ maxWidth: 500, marginTop: 2, marginLeft: 2, marginRight: 2 }}
+        >
           <CardMedia component="img" alt={name} height="220" image={image} />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
